@@ -47,3 +47,24 @@ def create_item(item : ItemSchema,db:Session = Depends(get_db)):
     db.commit()
     db.refresh(db_item)
     return db_item
+
+@app.put("/items/{item_id}")
+def update_item(item_id:int, item:ItemSchema,db:Session= Depends(get_db)):
+    db_item = db.query(models.Item).filter(models.Item.id == item_id).first()
+    if not db_item:
+        return {"error":"Item not found"}
+    db_item.name = item.name  
+    db.commit()
+    db.refresh(db_item)
+    
+    return db_item
+
+@app.delete("/items/{item_id}")
+def delete_item(item_id: int, db:Session = Depends(get_db)):
+    db_item = db.query(models.Item).filter(models.Item.id == item_id).first()
+    if not db_item:
+        return {"error":"Item not found"}
+    db.delete(db_item)
+    db.commit()
+    
+    return {"message":"Item deleted successfully"}

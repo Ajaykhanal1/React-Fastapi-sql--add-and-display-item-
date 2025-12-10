@@ -3,7 +3,7 @@ const Display = ({ items }) => {
     <div>
       <h1>Items from Backend</h1>
       {items.map(item => (
-        <p key={item.id}>{item.name}</p>
+        <p key={item.id}>{item.id}. {item.name}</p>
       ))}
     </div>
   );
